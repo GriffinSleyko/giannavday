@@ -1,140 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gianna 💖</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The big question</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(circle at top, #ffe1ec, #fff7fb);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #1f1f1f;
-    }
+<style>
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #2b193f, #0f0c1d);
+    color: #222;
+  }
 
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 32px 28px 36px;
-      max-width: 420px;
-      width: calc(100% - 32px);
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-      position: relative;
-      overflow: hidden;
-    }
+  .card {
+    background: #faf7fb;
+    border-radius: 22px;
+    padding: 32px 28px 36px;
+    max-width: 430px;
+    width: calc(100% - 32px);
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+  }
 
-    h1 { margin-bottom: 8px; }
+  h1 {
+    margin: 0 0 6px;
+  }
 
-    .question {
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin: 18px 0 24px;
-    }
+  p {
+    color: #555;
+    margin-bottom: 18px;
+  }
 
-    .buttons {
-      position: relative;
-      height: 170px;
-    }
+  .question {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
 
-    button {
-      border: none;
-      border-radius: 999px;
-      padding: 14px 26px;
-      font-size: 1rem;
-      cursor: pointer;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-    }
+  /* GAME AREA */
+  .arena {
+    position: relative;
+    height: 220px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #f4e8f2, #efe2f0);
+    box-shadow: inset 0 0 0 2px #e6cfe2;
+    overflow: hidden;
+    padding-top: 20px;
+  }
 
-    #yes {
-      background: #ff5c8a;
-      color: white;
-      top: 10px;
-    }
+  .taunt {
+    font-weight: 600;
+    color: #ff5c8a;
+    margin-bottom: 10px;
+    min-height: 24px;
+  }
 
-    #no {
-      background: #f1f1f1;
-      top: 70px;
-    }
+  button {
+    border: none;
+    border-radius: 999px;
+    padding: 14px 28px;
+    font-size: 1rem;
+    cursor: pointer;
+    position: absolute;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    transition: transform 0.15s ease;
+  }
 
-    .taunt {
-      position: absolute;
-      top: 42px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-weight: 600;
-      color: #ff5c8a;
-      animation: fadeIn 0.3s ease;
-    }
+  #yes {
+    background: #ff5c8a;
+    color: white;
+    left: 50%;
+    top: 40px;
+    transform: translateX(-50%);
+  }
 
-    .final {
-      display: none;
-      margin-top: 18px;
-      animation: fadeIn 0.5s ease forwards;
-    }
+  #no {
+    background: #e9e9e9;
+    left: 50%;
+    top: 110px;
+    transform: translateX(-50%);
+  }
 
-    .final img {
-      width: 100%;
-      border-radius: 14px;
-      margin-top: 10px;
-    }
+  .final {
+    display: none;
+    margin-top: 20px;
+    animation: fadeUp 0.5s ease forwards;
+  }
 
-    .wiggle {
-      animation: wiggle 0.4s ease;
-    }
+  .final img {
+    width: 100%;
+    border-radius: 14px;
+    margin-top: 10px;
+  }
 
-    @keyframes wiggle {
-      0% { transform: translateX(-50%) rotate(0); }
-      25% { transform: translateX(-50%) rotate(-3deg); }
-      50% { transform: translateX(-50%) rotate(3deg); }
-      75% { transform: translateX(-50%) rotate(-3deg); }
-      100% { transform: translateX(-50%) rotate(0); }
-    }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    footer {
-      margin-top: 22px;
-      font-size: 0.85rem;
-      color: #777;
-    }
-  </style>
+  footer {
+    margin-top: 22px;
+    font-size: 0.85rem;
+    color: #777;
+  }
+</style>
 </head>
 <body>
 
 <div class="card">
-  <h1>Hey Gianna 🙂</h1>
-  <p>I made a tiny website instead of asking this normally.</p>
+  <h1>Happy Valentines Day!</h1>
+  <p>just one question</p>
 
   <div class="question">Will you be my Valentine?</div>
 
-  <div class="buttons">
+  <div class="arena" id="arena">
     <div class="taunt" id="taunt"></div>
     <button id="yes">Yes 💖</button>
-    <button id="no">No 😅</button>
+    <button id="no">No</button>
   </div>
 
-  <!-- NO outcome -->
   <div class="final" id="noFinal">
     <p>yeah this was inevitable</p>
-    <img src="me.jpg" alt="me being annoying">
+    <img src="me.jpg">
   </div>
 
-  <!-- YES outcome -->
   <div class="final" id="yesFinal">
-    <p>let’s gooo 🥰</p>
-    <img src="yes.jpg" alt="celebration">
+    <p>boom</p>
+    <img src="yes.jpg">
   </div>
 
   <footer>built by me · no pressure 🙂</footer>
@@ -144,6 +141,7 @@
 <audio id="yay" src="yay.mp3"></audio>
 
 <script>
+  const arena = document.getElementById("arena");
   const noBtn = document.getElementById("no");
   const yesBtn = document.getElementById("yes");
   const taunt = document.getElementById("taunt");
@@ -156,26 +154,37 @@
 
   let noAttempts = 0;
   let noActive = true;
-
   let yesClicks = 0;
 
   const messages = ["chill", "chill fr", "don’t do it", "alr bet"];
 
-  function moveNo() {
+  arena.addEventListener("mousemove", (e) => {
     if (!noActive) return;
 
-    const rect = document.querySelector(".card").getBoundingClientRect();
-    const x = Math.random() * (rect.width - 120) + 20;
-    const y = Math.random() * (rect.height - 200) + 90;
+    const rect = noBtn.getBoundingClientRect();
+    const dx = e.clientX - (rect.left + rect.width / 2);
+    const dy = e.clientY - (rect.top + rect.height / 2);
+    const distance = Math.sqrt(dx*dx + dy*dy);
 
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    if (distance < 80) {
+      moveNo();
+    }
+  });
 
+  function moveNo() {
     if (noAttempts < messages.length) {
       taunt.textContent = messages[noAttempts];
     }
 
     noAttempts++;
+
+    const bounds = arena.getBoundingClientRect();
+    const x = Math.random() * (bounds.width - 120) + 10;
+    const y = Math.random() * (bounds.height - 140) + 50;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+    noBtn.style.transform = "none";
 
     if (noAttempts === 5) {
       noActive = false;
@@ -185,15 +194,11 @@
     }
   }
 
-  noBtn.addEventListener("mouseenter", moveNo);
-
   yesBtn.addEventListener("click", () => {
     yesClicks++;
 
     if (yesClicks === 1) {
       yesBtn.textContent = "are you sure?";
-      yesBtn.classList.add("wiggle");
-      setTimeout(() => yesBtn.classList.remove("wiggle"), 400);
     } else {
       yesBtn.style.display = "none";
       noBtn.style.display = "none";
