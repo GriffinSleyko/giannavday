@@ -27,9 +27,7 @@
     box-shadow: 0 30px 60px rgba(0,0,0,0.25);
   }
 
-  h1 {
-    margin: 0 0 6px;
-  }
+  h1 { margin: 0 0 6px; }
 
   p {
     color: #555;
@@ -42,7 +40,6 @@
     margin-bottom: 18px;
   }
 
-  /* GAME AREA */
   .arena {
     position: relative;
     height: 300px;
@@ -68,7 +65,6 @@
     cursor: pointer;
     position: absolute;
     box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-    transition: transform 0.15s ease;
   }
 
   #yes {
@@ -132,7 +128,7 @@
 
   <!-- YES path -->
   <div class="final" id="yesFinal">
-    <p>boom </p>
+    <p>boom 🥰</p>
     <img src="me.jpg" alt="">
   </div>
 
@@ -165,7 +161,7 @@
     if (!noActive) return;
 
     const now = Date.now();
-    if (now - lastMove < 300) return; // cooldown
+    if (now - lastMove < 300) return;
     lastMove = now;
 
     const rect = noBtn.getBoundingClientRect();
@@ -173,9 +169,7 @@
     const dy = e.clientY - (rect.top + rect.height / 2);
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    if (distance < 45) {
-      moveNo();
-    }
+    if (distance < 45) moveNo();
   });
 
   function moveNo() {
@@ -186,40 +180,48 @@
     noAttempts++;
 
     const bounds = arena.getBoundingClientRect();
-    const x = Math.random() * (bounds.width - 140) + 20;
-    const y = Math.random() * (bounds.height - 180) + 80;
-
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    noBtn.style.left = Math.random() * (bounds.width - 140) + 20 + "px";
+    noBtn.style.top = Math.random() * (bounds.height - 180) + 80 + "px";
     noBtn.style.transform = "none";
 
     if (noAttempts === 5) {
       noActive = false;
       taunt.textContent = "";
       noFinal.style.display = "block";
+      fart.currentTime = 0;
       fart.play();
     }
   }
 
   yesBtn.addEventListener("click", () => {
-  yesClicks++;
+    yesClicks++;
 
-  if (yesClicks === 1) {
-    yesBtn.textContent = "are you sure?";
-  } else {
+    if (yesClicks === 1) {
+      yesBtn.textContent = "are you sure?";
+      return;
+    }
+
+    // YES ALWAYS WINS
+    noActive = false;
+
+    // stop fart if it played
+    fart.pause();
+    fart.currentTime = 0;
+
+    // hide no result if visible
+    noFinal.style.display = "none";
+
     // hide buttons
     yesBtn.style.display = "none";
     noBtn.style.display = "none";
     taunt.textContent = "";
 
-    // 🔥 NEW: hide the NO result if it exists
-    noFinal.style.display = "none";
-
-    // show YES result
+    // show yes result
     yesFinal.style.display = "block";
+    yay.currentTime = 0;
     yay.play();
-  }
-});
+  });
+</script>
 
 </body>
 </html>
