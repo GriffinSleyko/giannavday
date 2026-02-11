@@ -13,18 +13,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: radial-gradient(circle at top, #2b193f, #0f0c1d);
+    background: radial-gradient(circle at top, #ffd1e3, #ff9fc5);
     color: #222;
   }
 
   .card {
     background: #faf7fb;
-    border-radius: 22px;
-    padding: 32px 28px 36px;
-    max-width: 430px;
+    border-radius: 24px;
+    padding: 36px 32px 40px;
+    max-width: 480px;
     width: calc(100% - 32px);
     text-align: center;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.25);
   }
 
   h1 {
@@ -45,25 +45,25 @@
   /* GAME AREA */
   .arena {
     position: relative;
-    height: 220px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #f4e8f2, #efe2f0);
-    box-shadow: inset 0 0 0 2px #e6cfe2;
+    height: 300px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #fce4ef, #f8d6e6);
+    box-shadow: inset 0 0 0 2px #f0b9d4;
     overflow: hidden;
-    padding-top: 20px;
+    padding-top: 24px;
   }
 
   .taunt {
     font-weight: 600;
     color: #ff5c8a;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     min-height: 24px;
   }
 
   button {
     border: none;
     border-radius: 999px;
-    padding: 14px 28px;
+    padding: 16px 32px;
     font-size: 1rem;
     cursor: pointer;
     position: absolute;
@@ -75,20 +75,20 @@
     background: #ff5c8a;
     color: white;
     left: 50%;
-    top: 40px;
+    top: 50px;
     transform: translateX(-50%);
   }
 
   #no {
-    background: #e9e9e9;
+    background: #ededed;
     left: 50%;
-    top: 110px;
+    top: 150px;
     transform: translateX(-50%);
   }
 
   .final {
     display: none;
-    margin-top: 20px;
+    margin-top: 22px;
     animation: fadeUp 0.5s ease forwards;
   }
 
@@ -104,7 +104,7 @@
   }
 
   footer {
-    margin-top: 22px;
+    margin-top: 24px;
     font-size: 0.85rem;
     color: #777;
   }
@@ -113,7 +113,7 @@
 <body>
 
 <div class="card">
-  <h1>Happy Valentines Day!</h1>
+  <h1>Happy Valentine’s Day!</h1>
   <p>just one question</p>
 
   <div class="question">Will you be my Valentine?</div>
@@ -124,14 +124,16 @@
     <button id="no">No</button>
   </div>
 
+  <!-- NO path -->
   <div class="final" id="noFinal">
     <p>yeah this was inevitable</p>
-    <img src="me.jpg">
+    <img src="me.jpg" alt="">
   </div>
 
+  <!-- YES path -->
   <div class="final" id="yesFinal">
-    <p>boom</p>
-    <img src="yes.jpg">
+    <p>boom 🥰</p>
+    <img src="yes.jpg" alt="">
   </div>
 
   <footer>built by me · no pressure 🙂</footer>
@@ -155,18 +157,23 @@
   let noAttempts = 0;
   let noActive = true;
   let yesClicks = 0;
+  let lastMove = 0;
 
   const messages = ["chill", "chill fr", "don’t do it", "alr bet"];
 
   arena.addEventListener("mousemove", (e) => {
     if (!noActive) return;
 
+    const now = Date.now();
+    if (now - lastMove < 300) return; // cooldown
+    lastMove = now;
+
     const rect = noBtn.getBoundingClientRect();
     const dx = e.clientX - (rect.left + rect.width / 2);
     const dy = e.clientY - (rect.top + rect.height / 2);
-    const distance = Math.sqrt(dx*dx + dy*dy);
+    const distance = Math.sqrt(dx * dx + dy * dy);
 
-    if (distance < 80) {
+    if (distance < 45) {
       moveNo();
     }
   });
@@ -179,8 +186,8 @@
     noAttempts++;
 
     const bounds = arena.getBoundingClientRect();
-    const x = Math.random() * (bounds.width - 120) + 10;
-    const y = Math.random() * (bounds.height - 140) + 50;
+    const x = Math.random() * (bounds.width - 140) + 20;
+    const y = Math.random() * (bounds.height - 180) + 80;
 
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
