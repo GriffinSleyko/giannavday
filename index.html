@@ -202,19 +202,24 @@
   }
 
   yesBtn.addEventListener("click", () => {
-    yesClicks++;
+  yesClicks++;
 
-    if (yesClicks === 1) {
-      yesBtn.textContent = "are you sure?";
-    } else {
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
-      taunt.textContent = "";
-      yesFinal.style.display = "block";
-      yay.play();
-    }
-  });
-</script>
+  if (yesClicks === 1) {
+    yesBtn.textContent = "are you sure?";
+  } else {
+    // hide buttons
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+    taunt.textContent = "";
+
+    // 🔥 NEW: hide the NO result if it exists
+    noFinal.style.display = "none";
+
+    // show YES result
+    yesFinal.style.display = "block";
+    yay.play();
+  }
+});
 
 </body>
 </html>
