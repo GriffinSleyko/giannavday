@@ -13,92 +13,90 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: radial-gradient(circle at top, #ffd1e3, #ff9fc5);
-    color: #222;
+    background: radial-gradient(circle at top, #ffd6e8, #ff9fc5);
   }
 
   .card {
-    background: #faf7fb;
-    border-radius: 24px;
-    padding: 36px 32px 40px;
-    max-width: 520px;
+    background: #fff;
+    border-radius: 28px;
+    padding: 40px;
+    max-width: 560px;
     width: calc(100% - 32px);
     text-align: center;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+    box-shadow: 0 35px 70px rgba(0,0,0,0.25);
   }
 
-  h1 { margin: 0 0 6px; }
+  h1 {
+    margin: 0 0 6px;
+  }
 
   p {
     color: #555;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
   }
 
   .question {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    margin-bottom: 18px;
+    margin-bottom: 22px;
   }
 
-  /* BIGGER GAME AREA */
+  /* GAME AREA */
   .arena {
     position: relative;
-    min-height: 420px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #fce4ef, #f8d6e6);
-    box-shadow: inset 0 0 0 2px #f0b9d4;
+    height: 360px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #ffe6f1, #ffd4e8);
+    box-shadow: inset 0 0 0 3px #f2b6d2;
     overflow: hidden;
-    padding: 28px;
+    padding-top: 26px;
   }
 
   .taunt {
     font-weight: 600;
-    color: #ff5c8a;
+    color: #ff4f87;
+    min-height: 28px;
     margin-bottom: 14px;
-    min-height: 24px;
-  }
-
-  .buttons {
-    position: relative;
-    height: 220px;
   }
 
   button {
     border: none;
     border-radius: 999px;
-    padding: 16px 34px;
+    padding: 16px 36px;
     font-size: 1rem;
     cursor: pointer;
     position: absolute;
     box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    transition: transform 0.15s ease;
   }
 
   #yes {
-    background: #ff5c8a;
+    background: #ff4f87;
     color: white;
     left: 50%;
-    top: 20px;
+    top: 80px;
     transform: translateX(-50%);
   }
 
   #no {
-    background: #ededed;
+    background: #eee;
     left: 50%;
-    top: 120px;
+    top: 180px;
     transform: translateX(-50%);
   }
 
-  /* RESULT */
-  .result {
+  .final {
     display: none;
+    padding: 20px;
     animation: fadeUp 0.5s ease forwards;
   }
 
-  .result img {
+  .final img {
     width: 100%;
-    height: auto;
-    border-radius: 16px;
-    margin-top: 14px;
+    max-height: 260px;
+    object-fit: cover;
+    border-radius: 18px;
+    margin-top: 12px;
   }
 
   @keyframes fadeUp {
@@ -107,7 +105,7 @@
   }
 
   footer {
-    margin-top: 24px;
+    margin-top: 26px;
     font-size: 0.85rem;
     color: #777;
   }
@@ -124,67 +122,72 @@
   <div class="arena" id="arena">
     <div class="taunt" id="taunt"></div>
 
-    <div class="buttons" id="buttons">
-      <button id="yes">Yes 💖</button>
-      <button id="no">No</button>
+    <button id="yes">Yes 💖</button>
+    <button id="no">No</button>
+
+    <!-- FINAL CONTENT APPEARS HERE -->
+    <div class="final" id="noFinal">
+      <p>yeah this was inevitable</p>
+      <img src="me.jpg" alt="">
     </div>
 
-    <div class="result" id="result">
-      <p id="resultText"></p>
-      <img id="resultImg" src="">
+    <div class="final" id="yesFinal">
+      <p>boom 🥰</p>
+      <img src="yes.jpg" alt="">
     </div>
   </div>
 
   <footer>no pressure</footer>
 </div>
 
+<!-- AUDIO -->
 <audio id="fart" src="fart.mp3" preload="auto"></audio>
 <audio id="yay" src="yay.mp3" preload="auto"></audio>
 
+<!-- HIDDEN CLICK HACK -->
+<button id="audioHack" style="display:none"></button>
+
 <script>
   const arena = document.getElementById("arena");
-  const buttons = document.getElementById("buttons");
   const noBtn = document.getElementById("no");
   const yesBtn = document.getElementById("yes");
   const taunt = document.getElementById("taunt");
 
-  const result = document.getElementById("result");
-  const resultText = document.getElementById("resultText");
-  const resultImg = document.getElementById("resultImg");
+  const noFinal = document.getElementById("noFinal");
+  const yesFinal = document.getElementById("yesFinal");
 
   const fart = document.getElementById("fart");
   const yay = document.getElementById("yay");
+  const audioHack = document.getElementById("audioHack");
 
-  let audioUnlocked = false;
   let noAttempts = 0;
-  let noActive = true;
   let yesClicks = 0;
-  let lastMove = 0;
+  let noActive = true;
 
   const messages = ["chill", "chill fr", "don’t do it", "alr bet"];
 
-  // 🔓 unlock audio on first click anywhere
+  // HARD AUDIO UNLOCK
   document.addEventListener("click", () => {
-    audioUnlocked = true;
-    fart.play().then(() => fart.pause()).catch(() => {});
-    yay.play().then(() => yay.pause()).catch(() => {});
-    fart.currentTime = 0;
-    yay.currentTime = 0;
+    fart.play().then(() => { fart.pause(); fart.currentTime = 0; }).catch(() => {});
+    yay.play().then(() => { yay.pause(); yay.currentTime = 0; }).catch(() => {});
   }, { once: true });
+
+  audioHack.addEventListener("click", () => {
+    fart.currentTime = 0;
+    fart.play().catch(() => {});
+  });
 
   arena.addEventListener("mousemove", (e) => {
     if (!noActive) return;
-
-    const now = Date.now();
-    if (now - lastMove < 250) return;
-    lastMove = now;
 
     const rect = noBtn.getBoundingClientRect();
     const dx = e.clientX - (rect.left + rect.width / 2);
     const dy = e.clientY - (rect.top + rect.height / 2);
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    if (distance < 45) moveNo();
+    if (distance < 40) {
+      moveNo();
+    }
   });
 
   function moveNo() {
@@ -195,23 +198,20 @@
     noAttempts++;
 
     const bounds = arena.getBoundingClientRect();
-    noBtn.style.left = Math.random() * (bounds.width - 160) + 20 + "px";
-    noBtn.style.top = Math.random() * (bounds.height - 260) + 120 + "px";
+    const x = Math.random() * (bounds.width - 160) + 20;
+    const y = Math.random() * (bounds.height - 220) + 80;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
     noBtn.style.transform = "none";
 
     if (noAttempts === 5) {
       noActive = false;
       taunt.textContent = "";
-      buttons.style.display = "none";
-      result.style.display = "block";
-      resultText.textContent = "yeah this was inevitable";
-      resultImg.src = "yes.jpg";
-
-      // force audio play via click simulation
-      if (audioUnlocked) {
-        fart.currentTime = 0;
-        fart.play().catch(() => {});
-      }
+      noBtn.style.display = "none";
+      yesBtn.style.display = "none";
+      noFinal.style.display = "block";
+      audioHack.click();
     }
   }
 
@@ -220,18 +220,12 @@
 
     if (yesClicks === 1) {
       yesBtn.textContent = "are you sure?";
-      return;
-    }
-
-    noActive = false;
-    buttons.style.display = "none";
-    taunt.textContent = "";
-
-    result.style.display = "block";
-    resultText.textContent = "boom 🥰";
-    resultImg.src = "me.jpg";
-
-    if (audioUnlocked) {
+    } else {
+      noActive = false;
+      noBtn.style.display = "none";
+      yesBtn.style.display = "none";
+      taunt.textContent = "";
+      yesFinal.style.display = "block";
       yay.currentTime = 0;
       yay.play().catch(() => {});
     }
@@ -240,4 +234,3 @@
 
 </body>
 </html>
-
