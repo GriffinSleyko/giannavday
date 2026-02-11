@@ -42,12 +42,12 @@
 
   .arena {
     position: relative;
-    height: 300px;
+    height: 320px;
     border-radius: 18px;
     background: linear-gradient(135deg, #fce4ef, #f8d6e6);
     box-shadow: inset 0 0 0 2px #f0b9d4;
     overflow: hidden;
-    padding-top: 24px;
+    padding: 24px;
   }
 
   .taunt {
@@ -83,19 +83,32 @@
   #no {
     background: #ededed;
     left: 50%;
-    top: 100px;
+    top: 110px;
     transform: translateX(-50%);
   }
 
+  /* RESULT AREA */
   .result {
     display: none;
     animation: fadeUp 0.5s ease forwards;
   }
 
-  .result img {
+  .result p {
+    margin-bottom: 12px;
+  }
+
+  .image-wrap {
     width: 100%;
+    max-height: 200px;
+    overflow: hidden;
     border-radius: 14px;
-    margin-top: 10px;
+  }
+
+  .image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   @keyframes fadeUp {
@@ -126,18 +139,19 @@
       <button id="no">No</button>
     </div>
 
-    <!-- RESULT AREA (replaces buttons) -->
     <div class="result" id="result">
       <p id="resultText"></p>
-      <img id="resultImg" src="" alt="">
+      <div class="image-wrap">
+        <img id="resultImg" src="">
+      </div>
     </div>
   </div>
 
   <footer>no pressure</footer>
 </div>
 
-<audio id="fart" src="fart.mp3"></audio>
-<audio id="yay" src="yay.mp3"></audio>
+<audio id="fart" src="fart.mp3" preload="auto"></audio>
+<audio id="yay" src="yay.mp3" preload="auto"></audio>
 
 <script>
   const arena = document.getElementById("arena");
@@ -153,22 +167,22 @@
   const fart = document.getElementById("fart");
   const yay = document.getElementById("yay");
 
-  // 🔓 unlock audio on first click
-  document.addEventListener("click", () => {
-    [fart, yay].forEach(audio => {
-      audio.play().then(() => {
-        audio.pause();
-        audio.currentTime = 0;
-      }).catch(() => {});
-    });
-  }, { once: true });
-
+  let audioUnlocked = false;
   let noAttempts = 0;
   let noActive = true;
   let yesClicks = 0;
   let lastMove = 0;
 
   const messages = ["chill", "chill fr", "don’t do it", "alr bet"];
+
+  // 🔓 unlock audio on first REAL click
+  document.addEventListener("click", () => {
+    audioUnlocked = true;
+    fart.play().then(() => fart.pause()).catch(() => {});
+    yay.play().then(() => yay.pause()).catch(() => {});
+    fart.currentTime = 0;
+    yay.currentTime = 0;
+  }, { once: true });
 
   arena.addEventListener("mousemove", (e) => {
     if (!noActive) return;
@@ -200,14 +214,15 @@
     if (noAttempts === 5) {
       noActive = false;
       taunt.textContent = "";
-
       buttons.style.display = "none";
       result.style.display = "block";
       resultText.textContent = "yeah this was inevitable";
       resultImg.src = "yes.jpg";
 
-      fart.currentTime = 0;
-      fart.play().catch(() => {});
+      if (audioUnlocked) {
+        fart.currentTime = 0;
+        fart.play().catch(() => {});
+      }
     }
   }
 
@@ -219,20 +234,18 @@
       return;
     }
 
-    // YES OVERRIDES EVERYTHING
     noActive = false;
-    fart.pause();
-    fart.currentTime = 0;
-
-    taunt.textContent = "";
     buttons.style.display = "none";
+    taunt.textContent = "";
 
     result.style.display = "block";
     resultText.textContent = "boom 🥰";
     resultImg.src = "me.jpg";
 
-    yay.currentTime = 0;
-    yay.play().catch(() => {});
+    if (audioUnlocked) {
+      yay.currentTime = 0;
+      yay.play().catch(() => {});
+    }
   });
 </script>
 
