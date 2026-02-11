@@ -24,6 +24,7 @@
     width: calc(100% - 32px);
     text-align: center;
     box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+    position: relative;
   }
 
   h1 { margin: 0 0 6px; }
@@ -93,11 +94,22 @@
     font-size: 0.85rem;
     color: #777;
   }
+
+  /* CLICK TO ARM AUDIO OVERLAY */
+  #audioGate {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    z-index: 10;
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
 
 <div class="card">
+  <div id="audioGate"></div>
+
   <h1>Happy Valentine’s Day!</h1>
   <p>just one question</p>
 
@@ -105,6 +117,7 @@
 
   <div class="arena" id="arena">
     <div class="taunt" id="taunt"></div>
+
     <button id="yes">Yes 💖</button>
     <button id="no">No</button>
 
@@ -134,29 +147,24 @@
   const yesFinal = document.getElementById("yesFinal");
   const fart = document.getElementById("fart");
   const yay = document.getElementById("yay");
+  const audioGate = document.getElementById("audioGate");
 
   let noAttempts = 0;
   let yesClicks = 0;
   let noActive = true;
-  let audioUnlocked = false;
+  let audioArmed = false;
 
   const messages = ["chill", "chill fr", "don’t do it", "alr bet"];
 
-  function unlockAudio() {
-    if (audioUnlocked) return;
-    audioUnlocked = true;
-    fart.play().then(() => {
-      fart.pause();
-      fart.currentTime = 0;
-    }).catch(() => {});
-    yay.play().then(() => {
-      yay.pause();
-      yay.currentTime = 0;
-    }).catch(() => {});
-  }
-
-  yesBtn.addEventListener("click", unlockAudio);
-  noBtn.addEventListener("mouseenter", unlockAudio);
+  // ARM AUDIO WITH ONE CLICK
+  audioGate.addEventListener("click", () => {
+    audioArmed = true;
+    fart.play().then(() => fart.pause()).catch(() => {});
+    yay.play().then(() => yay.pause()).catch(() => {});
+    fart.currentTime = 0;
+    yay.currentTime = 0;
+    audioGate.remove();
+  });
 
   arena.addEventListener("mousemove", (e) => {
     if (!noActive) return;
@@ -190,8 +198,11 @@
       yesBtn.style.display = "none";
       taunt.textContent = "";
       noFinal.style.display = "block";
-      fart.currentTime = 0;
-      fart.play().catch(() => {});
+
+      if (audioArmed) {
+        fart.currentTime = 0;
+        fart.play().catch(() => {});
+      }
     }
   }
 
@@ -206,8 +217,11 @@
       yesBtn.style.display = "none";
       taunt.textContent = "";
       yesFinal.style.display = "block";
-      yay.currentTime = 0;
-      yay.play().catch(() => {});
+
+      if (audioArmed) {
+        yay.currentTime = 0;
+        yay.play().catch(() => {});
+      }
     }
   });
 </script>
