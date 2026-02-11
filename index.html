@@ -57,6 +57,11 @@
     min-height: 24px;
   }
 
+  .buttons {
+    position: relative;
+    height: 200px;
+  }
+
   button {
     border: none;
     border-radius: 999px;
@@ -71,24 +76,23 @@
     background: #ff5c8a;
     color: white;
     left: 50%;
-    top: 50px;
+    top: 20px;
     transform: translateX(-50%);
   }
 
   #no {
     background: #ededed;
     left: 50%;
-    top: 150px;
+    top: 100px;
     transform: translateX(-50%);
   }
 
-  .final {
+  .result {
     display: none;
-    margin-top: 22px;
     animation: fadeUp 0.5s ease forwards;
   }
 
-  .final img {
+  .result img {
     width: 100%;
     border-radius: 14px;
     margin-top: 10px;
@@ -116,20 +120,17 @@
 
   <div class="arena" id="arena">
     <div class="taunt" id="taunt"></div>
-    <button id="yes">Yes 💖</button>
-    <button id="no">No</button>
-  </div>
 
-  <!-- NO path -->
-  <div class="final" id="noFinal">
-    <p>yeah this was inevitable</p>
-    <img src="yes.jpg" alt="">
-  </div>
+    <div class="buttons" id="buttons">
+      <button id="yes">Yes 💖</button>
+      <button id="no">No</button>
+    </div>
 
-  <!-- YES path -->
-  <div class="final" id="yesFinal">
-    <p>boom 🥰</p>
-    <img src="me.jpg" alt="">
+    <!-- RESULT AREA (replaces buttons) -->
+    <div class="result" id="result">
+      <p id="resultText"></p>
+      <img id="resultImg" src="" alt="">
+    </div>
   </div>
 
   <footer>no pressure</footer>
@@ -140,15 +141,27 @@
 
 <script>
   const arena = document.getElementById("arena");
+  const buttons = document.getElementById("buttons");
   const noBtn = document.getElementById("no");
   const yesBtn = document.getElementById("yes");
   const taunt = document.getElementById("taunt");
 
-  const noFinal = document.getElementById("noFinal");
-  const yesFinal = document.getElementById("yesFinal");
+  const result = document.getElementById("result");
+  const resultText = document.getElementById("resultText");
+  const resultImg = document.getElementById("resultImg");
 
   const fart = document.getElementById("fart");
   const yay = document.getElementById("yay");
+
+  // 🔓 unlock audio on first click
+  document.addEventListener("click", () => {
+    [fart, yay].forEach(audio => {
+      audio.play().then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+      }).catch(() => {});
+    });
+  }, { once: true });
 
   let noAttempts = 0;
   let noActive = true;
@@ -181,15 +194,20 @@
 
     const bounds = arena.getBoundingClientRect();
     noBtn.style.left = Math.random() * (bounds.width - 140) + 20 + "px";
-    noBtn.style.top = Math.random() * (bounds.height - 180) + 80 + "px";
+    noBtn.style.top = Math.random() * (bounds.height - 200) + 80 + "px";
     noBtn.style.transform = "none";
 
     if (noAttempts === 5) {
       noActive = false;
       taunt.textContent = "";
-      noFinal.style.display = "block";
+
+      buttons.style.display = "none";
+      result.style.display = "block";
+      resultText.textContent = "yeah this was inevitable";
+      resultImg.src = "yes.jpg";
+
       fart.currentTime = 0;
-      fart.play();
+      fart.play().catch(() => {});
     }
   }
 
@@ -201,25 +219,20 @@
       return;
     }
 
-    // YES ALWAYS WINS
+    // YES OVERRIDES EVERYTHING
     noActive = false;
-
-    // stop fart if it played
     fart.pause();
     fart.currentTime = 0;
 
-    // hide no result if visible
-    noFinal.style.display = "none";
-
-    // hide buttons
-    yesBtn.style.display = "none";
-    noBtn.style.display = "none";
     taunt.textContent = "";
+    buttons.style.display = "none";
 
-    // show yes result
-    yesFinal.style.display = "block";
+    result.style.display = "block";
+    resultText.textContent = "boom 🥰";
+    resultImg.src = "me.jpg";
+
     yay.currentTime = 0;
-    yay.play();
+    yay.play().catch(() => {});
   });
 </script>
 
