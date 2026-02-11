@@ -21,7 +21,7 @@
     background: #faf7fb;
     border-radius: 24px;
     padding: 36px 32px 40px;
-    max-width: 480px;
+    max-width: 520px;
     width: calc(100% - 32px);
     text-align: center;
     box-shadow: 0 30px 60px rgba(0,0,0,0.25);
@@ -40,32 +40,33 @@
     margin-bottom: 18px;
   }
 
+  /* BIGGER GAME AREA */
   .arena {
     position: relative;
-    height: 320px;
+    min-height: 420px;
     border-radius: 18px;
     background: linear-gradient(135deg, #fce4ef, #f8d6e6);
     box-shadow: inset 0 0 0 2px #f0b9d4;
     overflow: hidden;
-    padding: 24px;
+    padding: 28px;
   }
 
   .taunt {
     font-weight: 600;
     color: #ff5c8a;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     min-height: 24px;
   }
 
   .buttons {
     position: relative;
-    height: 200px;
+    height: 220px;
   }
 
   button {
     border: none;
     border-radius: 999px;
-    padding: 16px 32px;
+    padding: 16px 34px;
     font-size: 1rem;
     cursor: pointer;
     position: absolute;
@@ -83,36 +84,25 @@
   #no {
     background: #ededed;
     left: 50%;
-    top: 110px;
+    top: 120px;
     transform: translateX(-50%);
   }
 
-  /* RESULT AREA */
+  /* RESULT */
   .result {
     display: none;
     animation: fadeUp 0.5s ease forwards;
   }
 
-  .result p {
-    margin-bottom: 12px;
-  }
-
-  .image-wrap {
+  .result img {
     width: 100%;
-    max-height: 200px;
-    overflow: hidden;
-    border-radius: 14px;
-  }
-
-  .image-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+    height: auto;
+    border-radius: 16px;
+    margin-top: 14px;
   }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
@@ -141,9 +131,7 @@
 
     <div class="result" id="result">
       <p id="resultText"></p>
-      <div class="image-wrap">
-        <img id="resultImg" src="">
-      </div>
+      <img id="resultImg" src="">
     </div>
   </div>
 
@@ -175,7 +163,7 @@
 
   const messages = ["chill", "chill fr", "don’t do it", "alr bet"];
 
-  // 🔓 unlock audio on first REAL click
+  // 🔓 unlock audio on first click anywhere
   document.addEventListener("click", () => {
     audioUnlocked = true;
     fart.play().then(() => fart.pause()).catch(() => {});
@@ -188,7 +176,7 @@
     if (!noActive) return;
 
     const now = Date.now();
-    if (now - lastMove < 300) return;
+    if (now - lastMove < 250) return;
     lastMove = now;
 
     const rect = noBtn.getBoundingClientRect();
@@ -207,8 +195,8 @@
     noAttempts++;
 
     const bounds = arena.getBoundingClientRect();
-    noBtn.style.left = Math.random() * (bounds.width - 140) + 20 + "px";
-    noBtn.style.top = Math.random() * (bounds.height - 200) + 80 + "px";
+    noBtn.style.left = Math.random() * (bounds.width - 160) + 20 + "px";
+    noBtn.style.top = Math.random() * (bounds.height - 260) + 120 + "px";
     noBtn.style.transform = "none";
 
     if (noAttempts === 5) {
@@ -219,6 +207,7 @@
       resultText.textContent = "yeah this was inevitable";
       resultImg.src = "yes.jpg";
 
+      // force audio play via click simulation
       if (audioUnlocked) {
         fart.currentTime = 0;
         fart.play().catch(() => {});
@@ -251,3 +240,4 @@
 
 </body>
 </html>
+
